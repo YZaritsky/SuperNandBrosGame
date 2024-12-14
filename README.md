@@ -31,4 +31,6 @@ This project is a part of the Nand2Tetris course, which aims to provide a compre
 
 ## Acknowledgements
 
-Thanks to the creators of the Nand2Tetris course for allowing us to undertake this project and providing the tools and knowledge to build it.
+Thanks to the creators of the Nand2Tetris course, Shimon Schocken and Noam Nisan, for allowing us to undertake this project and providing the tools and knowledge to build it. 
+
+For more information, visit the [Nand2Tetris course website](https://www.nand2tetris.org).
