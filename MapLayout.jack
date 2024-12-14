@@ -1,0 +1,283 @@
+class MapLayout {
+    function Array row8Blocks() {
+        var Array arr;
+        var int k;
+
+        let k = 100; // Pole base position
+        let arr = Array.new(1);
+        let arr[0] = Block.new(5, k); // pole
+
+        return arr;
+    }
+    function Array row9Blocks() {
+        var Array arr;
+        var int i;
+        var int m;
+        var int k;
+        var int o;
+
+        let i = 0;
+        let m = 94; // End-Stairs position
+        let k = 100; // Pole base position
+        let o = 105; // Castle position
+        
+        let arr = Array.new(7);
+
+        while (i < 3) {
+            let arr[i] = Block.new(2, (i + m));
+            let i = (i + 1);
+        }
+        let arr[3] = Block.new(4, k); // pole
+        let arr[4] = Block.new(1, o); // castle
+        let arr[5] = Block.new(1, o+1); // castle
+        let arr[6] = Block.new(1, o+2); // castle
+
+        return arr;
+    }
+    function Array row10Blocks() {
+        var Array arr;
+        var int i;
+        var int j;
+        var int n;  
+        var int m;
+        var int k;
+        var int o;
+
+        let i = 0;
+        let j = 26;
+        let n = 60; // Jumping blocks position
+        let m = 92; // End-Stairs position
+        let k = 100; // Pole base position
+        let o = 105; // Castle position
+
+        let arr = Array.new(20);
+
+        while (i < 3) { // Jumping blocks
+            let arr[i] = Block.new(1, (i+10));
+            let i = (i + 1);
+        }
+        let i = 0;
+        while (i < 2) {
+            let arr[i+3] = Block.new(2, (i+j));
+            let i = (i + 1);
+        }
+
+        let i = 0;
+        while (i < 6) { // More jumping blocks
+            let arr[i+5] = Block.new(1, (i+n));
+            let i = (i + 1);
+        }
+
+        let i = 0;
+        while (i < 5){
+            let arr[i+11] = Block.new(2, (m + i));
+            let i = (i + 1);
+        }
+        let arr[16] = Block.new(4, k); // pole
+        let arr[17] = Block.new(1, o); // castle
+        let arr[18] = Block.new(1, o+1); // castle
+        let arr[19] = Block.new(1, o+2); // castle
+
+        return arr;
+    }
+    function Array row11Blocks() {
+        var Array arr;
+        var int i;
+        var int j;
+        var int m;
+        var int k;
+        var int o;
+
+        let i = 0;
+        let j = 24;
+        let m = 90; // End-Stairs position
+        let k = 100; // Pole base position
+        let o = 104; // Castle position
+        let arr = Array.new(17);
+
+        while (i < 4) {
+            let arr[i] = Block.new(2, (i+j));
+            let i = (i + 1);
+        }
+        
+        // end-game stairs
+        let i = 0;
+        while (i + 4 < 11) {
+            let arr[i+4] = Block.new(2, (m + i));
+            let i = (i + 1);
+        }
+
+        let arr[11] = Block.new(4, k); // pole
+        let arr[12] = Block.new(1, o); // castle
+        let arr[13] = Block.new(1, o+1); // castle
+        let arr[14] = Block.new(1, o+2); // castle
+        let arr[15] = Block.new(1, o+3); // castle
+        let arr[16] = Block.new(1, o+4); // castle
+
+        return arr;
+    }
+    function Array row12Blocks() {
+        var Array arr;
+        var int i;
+        var int j;
+        var int m;
+        var int k;
+        var int o;
+
+        let i = 0;
+        let j = 22;
+        let m = 88; // End-Stairs position
+        let k = 100; // Pole base position
+        let o = 104; // Castle position
+
+        let arr = Array.new(20);
+        while (i < 6) {
+            let arr[i] = Block.new(2, (i+j));
+            let i = (i + 1);
+        }
+
+        // end-game stairs
+        let i = 0;
+        while (i + 6 < 15) {
+            let arr[i+6] = Block.new(2, (m + i));
+            let i = (i + 1);
+        }
+
+        let arr[15] = Block.new(4, k); // pole
+        let arr[16] = Block.new(1, o); // castle
+        let arr[17] = Block.new(1, o+1); 
+        let arr[18] = Block.new(1, o+3); 
+        let arr[19] = Block.new(1, o+4); 
+
+        return arr;
+    }
+    function Array row13Blocks() {
+        var Array arr;
+        var int i;
+        var int j;
+        var int k;
+        var int p;
+        var int m;
+        var int s;
+        var int o;
+
+        let i = 0;
+        let j = 20; // Stairs position
+        let p = 40; // Pipe position
+        let m = 86; // End-Stairs position
+        let k = 100; // Pole base position
+        let o = 104; // Castle position
+
+        let arr = Array.new(26);
+        while (i < 8) {
+            let arr[i] = Block.new(2, (i+j));
+            let i = (i + 1);
+        }
+        let arr[8] = Block.new(3, p); // pipe 1
+        let arr[9] = Block.new(3, p+15); // pipe 2
+
+        // end-game stairs
+        let i = 0;
+        while (i + 10 < 21) {
+            let arr[i+10] = Block.new(2, (m + i));
+            let i = (i + 1);
+        }
+        let arr[21] = Block.new(2, k); // pole base
+        let arr[22] = Block.new(1, o); // castle
+        let arr[23] = Block.new(1, o+1); 
+        let arr[24] = Block.new(1, o+3); 
+        let arr[25] = Block.new(1, o+4); 
+
+        return arr;
+    }
+    function Array row14Blocks() {
+        var Array arr;
+        var int i;
+        let i = 0;
+        let arr = Array.new(140);
+        while (i < 28) {
+            let arr[i] = Block.new(0, i);
+            let i = (i + 1);
+        }
+        while (i < 140) {
+            let arr[i] = Block.new(0, i+2); // Creates a gap in the blocks (The well of death) 
+            let i = (i + 1);
+        }
+        return arr;
+    }
+    function Array row15Blocks() {
+        var Array arr;
+        var int i;
+        let i = 0;
+        let arr = Array.new(140);
+        while (i < 28) {
+            let arr[i] = Block.new(0, i);
+            let i = (i + 1);
+        }
+        while (i < 140) {
+            let arr[i] = Block.new(0, i+2); // Creates a gap in the blocks (The well of death)
+            let i = (i + 1);
+        }
+        return arr;
+    }
+
+    function int row8size() {
+        return 1;
+    }
+    function int row9size() {
+        return 7;
+    }
+    function int row10size() {
+        return 20;
+    }
+    function int row11size() {
+        return 17;
+    }
+    function int row12size() {
+        return 20;
+    }
+    function int row13size() {
+        return 26;
+    }
+    function int row14size() {
+        return 140;
+    }
+    function int row15size() {
+        return 140;
+    }
+
+    function Array row11coins() {
+        var Array arr;
+
+        let arr = Array.new(6);
+
+
+        let arr[0] = Coin.new(43, 11);
+        let arr[1] = Coin.new(45, 11);
+        let arr[2] = Coin.new(47, 11);
+        let arr[3] = Coin.new(49, 11);
+        let arr[4] = Coin.new(51, 11);
+        let arr[5] = Coin.new(53, 11);
+
+        return arr;
+    }
+    function int row11numCoins() {
+        return 6;
+    }
+    function Array row13coins() {
+        var Array arr;
+
+        let arr = Array.new(5);
+
+        let arr[0] = Coin.new(74, 13);
+        let arr[1] = Coin.new(76, 13);
+        let arr[2] = Coin.new(78, 13);
+        let arr[3] = Coin.new(80, 13);
+        let arr[4] = Coin.new(82, 13);
+
+        return arr;   
+    }
+    function int row13numCoins() {
+        return 5;
+    }
+}

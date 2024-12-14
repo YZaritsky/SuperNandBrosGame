@@ -1,0 +1,186 @@
+class Game {
+    field Character character;
+    field Map map;
+    field Array row13coins;
+    field int row13coinsSize;
+    field Array row11coins;
+    field int row11coinsSize;
+    field int collectedCoinsCount;
+    field int gameEndFramePosition;
+    field int playerHeightLosePosition;
+
+    field String scoreText;
+
+    constructor Game new() {
+        let row13coins = MapLayout.row13coins();
+        let row13coinsSize = MapLayout.row13numCoins();
+        let row11coins = MapLayout.row11coins();
+        let row11coinsSize = MapLayout.row11numCoins();
+
+        let map = Map.new(row13coins, row11coins);
+        let character = Character.new(map.getHeight());
+        let gameEndFramePosition = 98;
+        let playerHeightLosePosition = 230;
+        let collectedCoinsCount = 0;
+        let scoreText = "Score: ";
+        return this;
+    }
+
+    method void run() {
+        var int key;
+        var int action;
+        // mainloop - each iteration gets input from the user and modifys the map.
+        // frame (visible map - simulates player movement), user animation, and object collision.
+        do entryScreen();
+        while (true) {
+            let key = Keyboard.keyPressed();
+            do map.render();
+            
+            if (key = 132) { // Key code for Right arrow
+                let action = 1;
+                do map.advance();
+            }
+
+            if (key = 131) { // Key code for Up arrow
+                let action = 2;
+            }
+
+            if (key = 0) { // nothing pressed
+                let action = 0;
+            }
+
+            // render the character
+            do character.render(action, map.getHeight());
+
+            // handle coins collection
+            do handleCoinCollection(map.getCurrentShift(), character.getCorrentHeight());
+            do updateCollectedCoinsCount();
+
+            // check player and map position - lose and win conditions
+
+            if (map.getCurrentShift() = gameEndFramePosition) {
+                // show win screen and exit
+                do endScreen();
+                return;
+            }
+
+            if (character.getCorrentHeight() > playerHeightLosePosition) {
+                // player died(fell into the well) - show lose screen and exit
+                do loseScreen();
+                return;
+            }
+
+        }
+        return;
+    }
+
+    method void entryScreen() {
+        var int key;
+        let key = Keyboard.keyPressed();
+
+        do SpecialScreens.drawStart();
+        while (key = 0) { // Intro screen
+            let key = Keyboard.keyPressed();
+        }
+
+        do map.eraseMap();
+        return;
+    }
+
+    method void endScreen() {
+        var int key;
+        let key = 0;
+        do map.eraseMap();
+
+        do SpecialScreens.drawEnd();
+        while (~(key = 82)) { // End game screen
+            let key = Keyboard.keyPressed();
+        }
+
+        do map.eraseMap();
+
+
+        return;
+    }
+
+    method void loseScreen() {
+        var int key;
+        let key = 0;
+        do map.eraseMap();
+
+        do SpecialScreens.drawLose();
+        while (~(key = 82)) { // Lose game screen
+            let key = Keyboard.keyPressed();
+        }
+
+        do map.eraseMap();
+
+        return;
+    }
+
+    method void handleCoinCollection(int currentShift, int playerHeight) {
+        var int i;
+        var Coin curCoin;
+        // iterate over the coins, and check if the current coin collides with the player.
+        // if yes - collects the coin
+        let i = 0;
+        while (i < row13coinsSize) {
+            let curCoin = row13coins[i];
+            if (curCoin.collidedWithPlayer(currentShift, playerHeight)) {
+                do curCoin.collectCoin();
+                let collectedCoinsCount = collectedCoinsCount + 1;
+            }
+            let i = i + 1;
+        }
+
+        let i = 0;
+        while (i < row11coinsSize) {
+            let curCoin = row11coins[i];
+            if (curCoin.collidedWithPlayer(currentShift, playerHeight)) {
+                do curCoin.collectCoin();
+                let collectedCoinsCount = collectedCoinsCount + 1;
+            }
+            let i = i + 1;
+        }
+
+        return;
+    }
+
+    method void updateCollectedCoinsCount() {
+        do Output.moveCursor(0, 0);
+        do Output.printString(scoreText);
+        do Output.printInt(collectedCoinsCount);
+        return;
+    }
+
+    method void dispose() {
+        var int i;
+        var Coin curCoin;
+
+        do character.dispose();
+        do map.dispose();
+        do scoreText.dispose();
+
+
+        // delete coins and their arrays
+        let i = 0;
+        while (i < row13coinsSize) {
+            let curCoin = row13coins[i];
+            do curCoin.dispose();
+            let i = i + 1;
+        }
+        do row13coins.dispose();
+
+        let i = 0;
+        while (i < row11coinsSize) {
+            let curCoin = row11coins[i];
+            do curCoin.dispose();
+            let i = i + 1;
+        }
+        do row11coins.dispose();
+
+        do Memory.deAlloc(this);
+        return;
+    }
+
+}

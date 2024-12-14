@@ -1,0 +1,739 @@
+class Items {
+	/*
+     * erase the block at the given location
+     */
+    function void renderEmptyBlock(int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 0);
+		do Memory.poke(memAddress +32, 0);
+		do Memory.poke(memAddress +64, 0);
+		do Memory.poke(memAddress +96, 0);
+		do Memory.poke(memAddress +128, 0);
+		do Memory.poke(memAddress +160, 0);
+		do Memory.poke(memAddress +192, 0);
+		do Memory.poke(memAddress +224, 0);
+		do Memory.poke(memAddress +256, 0);
+		do Memory.poke(memAddress +288, 0);
+		do Memory.poke(memAddress +320, 0);
+		do Memory.poke(memAddress +352, 0);
+		do Memory.poke(memAddress +384, 0);
+		do Memory.poke(memAddress +416, 0);
+		do Memory.poke(memAddress +448, 0);
+		do Memory.poke(memAddress +480, 0);
+		return;
+	}
+
+    /*
+     * render a full ground block in the given location
+     */
+    function void renderGroundBlock(int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, -1);
+		do Memory.poke(memAddress +32, -31743);
+		do Memory.poke(memAddress +64, -31743);
+		do Memory.poke(memAddress +96, -29695);
+		do Memory.poke(memAddress +128, 31745);
+		do Memory.poke(memAddress +160, -31743);
+		do Memory.poke(memAddress +192, -31743);
+		do Memory.poke(memAddress +224, -31743);
+		do Memory.poke(memAddress +256, -31743);
+		do Memory.poke(memAddress +288, -32255);
+		do Memory.poke(memAddress +320, -32255);
+		do Memory.poke(memAddress +352, -32513);
+		do Memory.poke(memAddress +384, -32383);
+		do Memory.poke(memAddress +416, -32511);
+		do Memory.poke(memAddress +448, -32511);
+		do Memory.poke(memAddress +480, -1);
+		return;
+	}
+    /*
+     * render in the given location the left half of a ground block on the right side
+     */
+    function void renderLeftHalfGroundBlock(int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, -256);
+		do Memory.poke(memAddress +32, 256);
+		do Memory.poke(memAddress +64, 256);
+		do Memory.poke(memAddress +96, 256);
+		do Memory.poke(memAddress +128, 256);
+		do Memory.poke(memAddress +160, 256);
+		do Memory.poke(memAddress +192, 256);
+		do Memory.poke(memAddress +224, 256);
+		do Memory.poke(memAddress +256, 256);
+		do Memory.poke(memAddress +288, 256);
+		do Memory.poke(memAddress +320, 256);
+		do Memory.poke(memAddress +352, -256);
+		do Memory.poke(memAddress +384, -32512);
+		do Memory.poke(memAddress +416, 256);
+		do Memory.poke(memAddress +448, 256);
+		do Memory.poke(memAddress +480, -256);
+		return;
+	}
+    /*
+     * render in the given location the right half of a ground block on the left side
+     */
+    function void renderRightHalfGroundBlock(int location){
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 255);
+		do Memory.poke(memAddress +32, 132);
+		do Memory.poke(memAddress +64, 132);
+		do Memory.poke(memAddress +96, 140);
+		do Memory.poke(memAddress +128, 124);
+		do Memory.poke(memAddress +160, 132);
+		do Memory.poke(memAddress +192, 132);
+		do Memory.poke(memAddress +224, 132);
+		do Memory.poke(memAddress +256, 132);
+		do Memory.poke(memAddress +288, 130);
+		do Memory.poke(memAddress +320, 130);
+		do Memory.poke(memAddress +352, 128);
+		do Memory.poke(memAddress +384, 129);
+		do Memory.poke(memAddress +416, 129);
+		do Memory.poke(memAddress +448, 129);
+		do Memory.poke(memAddress +480, 255);
+		return;
+	}
+
+    /*
+     * render in the given location two ground block halves - right half of a block in the left side, 
+     * and a left half of a block in the right side
+     */
+    function void renderRightLeftHalfGroundBlocks(int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, -1);
+		do Memory.poke(memAddress +32, 388);
+		do Memory.poke(memAddress +64, 388);
+		do Memory.poke(memAddress +96, 396);
+		do Memory.poke(memAddress +128, 380);
+		do Memory.poke(memAddress +160, 388);
+		do Memory.poke(memAddress +192, 388);
+		do Memory.poke(memAddress +224, 388);
+		do Memory.poke(memAddress +256, 388);
+		do Memory.poke(memAddress +288, 386);
+		do Memory.poke(memAddress +320, 386);
+		do Memory.poke(memAddress +352, -128);
+		do Memory.poke(memAddress +384, -32383);
+		do Memory.poke(memAddress +416, 385);
+		do Memory.poke(memAddress +448, 385);
+		do Memory.poke(memAddress +480, -1);
+		return;
+	}
+
+    /*
+     * render a full jumping block in the given location
+     */
+    function void renderJumpingBlock(int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, -1);
+		do Memory.poke(memAddress +32, -32639);
+		do Memory.poke(memAddress +64, -32639);
+		do Memory.poke(memAddress +96, -1);
+		do Memory.poke(memAddress +128, -30703);
+		do Memory.poke(memAddress +160, -30703);
+		do Memory.poke(memAddress +192, -30703);
+		do Memory.poke(memAddress +224, -1);
+		do Memory.poke(memAddress +256, -32639);
+		do Memory.poke(memAddress +288, -32639);
+		do Memory.poke(memAddress +320, -32639);
+		do Memory.poke(memAddress +352, -1);
+		do Memory.poke(memAddress +384, -30703);
+		do Memory.poke(memAddress +416, -30703);
+		do Memory.poke(memAddress +448, -30703);
+		do Memory.poke(memAddress +480, -1);
+		return;
+	}
+    /*
+     * render in the given location the left half of a jumping block on the right side
+     */
+    function void renderLeftHalfJumpingBlock(int location){
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, -256);
+		do Memory.poke(memAddress +32, -32512);
+		do Memory.poke(memAddress +64, -32512);
+		do Memory.poke(memAddress +96, -256);
+		do Memory.poke(memAddress +128, 4352);
+		do Memory.poke(memAddress +160, 4352);
+		do Memory.poke(memAddress +192, 4352);
+		do Memory.poke(memAddress +224, -256);
+		do Memory.poke(memAddress +256, -32512);
+		do Memory.poke(memAddress +288, -32512);
+		do Memory.poke(memAddress +320, -32512);
+		do Memory.poke(memAddress +352, -256);
+		do Memory.poke(memAddress +384, 4352);
+		do Memory.poke(memAddress +416, 4352);
+		do Memory.poke(memAddress +448, 4352);
+		do Memory.poke(memAddress +480, -256);
+		return;
+	}
+    /*
+     * render in the given location the right half of a jumping block on the left side
+     */
+    function void renderRightHalfJumpingBlock(int location){
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 255);
+		do Memory.poke(memAddress +32, 128);
+		do Memory.poke(memAddress +64, 128);
+		do Memory.poke(memAddress +96, 255);
+		do Memory.poke(memAddress +128, 132);
+		do Memory.poke(memAddress +160, 132);
+		do Memory.poke(memAddress +192, 132);
+		do Memory.poke(memAddress +224, 255);
+		do Memory.poke(memAddress +256, 128);
+		do Memory.poke(memAddress +288, 128);
+		do Memory.poke(memAddress +320, 128);
+		do Memory.poke(memAddress +352, 255);
+		do Memory.poke(memAddress +384, 132);
+		do Memory.poke(memAddress +416, 132);
+		do Memory.poke(memAddress +448, 132);
+		do Memory.poke(memAddress +480, 255);
+		return;
+	}
+    /*
+     * render in the given location two jumping block halves - right half of a block in the left side, 
+     * and a left half of a block in the right side
+     */
+    function void renderRightLeftHalfJumpingBlocks(int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, -1);
+		do Memory.poke(memAddress +32, -32384);
+		do Memory.poke(memAddress +64, -32384);
+		do Memory.poke(memAddress +96, -1);
+		do Memory.poke(memAddress +128, 4484);
+		do Memory.poke(memAddress +160, 4484);
+		do Memory.poke(memAddress +192, 4484);
+		do Memory.poke(memAddress +224, -1);
+		do Memory.poke(memAddress +256, -32384);
+		do Memory.poke(memAddress +288, -32384);
+		do Memory.poke(memAddress +320, -32384);
+		do Memory.poke(memAddress +352, -1);
+		do Memory.poke(memAddress +384, 4484);
+		do Memory.poke(memAddress +416, 4484);
+		do Memory.poke(memAddress +448, 4484);
+		do Memory.poke(memAddress +480, -1);
+		return;
+	}
+
+	/*
+     * render a full jumping block in the given location
+     */
+    function void renderWalkingBlock(int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 32766);
+		do Memory.poke(memAddress +32, -8185);
+		do Memory.poke(memAddress +64, -8185);
+		do Memory.poke(memAddress +96, -28663);
+		do Memory.poke(memAddress +128, -32767);
+		do Memory.poke(memAddress +160, -32767);
+		do Memory.poke(memAddress +192, -32767);
+		do Memory.poke(memAddress +224, -32767);
+		do Memory.poke(memAddress +256, -32767);
+		do Memory.poke(memAddress +288, -32767);
+		do Memory.poke(memAddress +320, -32767);
+		do Memory.poke(memAddress +352, -32767);
+		do Memory.poke(memAddress +384, -28663);
+		do Memory.poke(memAddress +416, -8185);
+		do Memory.poke(memAddress +448, -8185);
+		do Memory.poke(memAddress +480, 32766);
+		return;
+	}
+    /*
+     * render in the given location the left half of a jumping block on the right side
+     */
+    function void renderLeftHalfWalkingBlock(int location){
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, -512);
+		do Memory.poke(memAddress +32, 1792);
+		do Memory.poke(memAddress +64, 1792);
+		do Memory.poke(memAddress +96, 2304);
+		do Memory.poke(memAddress +128, 256);
+		do Memory.poke(memAddress +160, 256);
+		do Memory.poke(memAddress +192, 256);
+		do Memory.poke(memAddress +224, 256);
+		do Memory.poke(memAddress +256, 256);
+		do Memory.poke(memAddress +288, 256);
+		do Memory.poke(memAddress +320, 256);
+		do Memory.poke(memAddress +352, 256);
+		do Memory.poke(memAddress +384, 2304);
+		do Memory.poke(memAddress +416, 1792);
+		do Memory.poke(memAddress +448, 1792);
+		do Memory.poke(memAddress +480, -512);
+		return;
+	}
+    /*
+     * render in the given location the right half of a jumping block on the left side
+     */
+    function void renderRightHalfWalkingBlock(int location){
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 127);
+		do Memory.poke(memAddress +32, 224);
+		do Memory.poke(memAddress +64, 224);
+		do Memory.poke(memAddress +96, 144);
+		do Memory.poke(memAddress +128, 128);
+		do Memory.poke(memAddress +160, 128);
+		do Memory.poke(memAddress +192, 128);
+		do Memory.poke(memAddress +224, 128);
+		do Memory.poke(memAddress +256, 128);
+		do Memory.poke(memAddress +288, 128);
+		do Memory.poke(memAddress +320, 128);
+		do Memory.poke(memAddress +352, 128);
+		do Memory.poke(memAddress +384, 144);
+		do Memory.poke(memAddress +416, 224);
+		do Memory.poke(memAddress +448, 224);
+		do Memory.poke(memAddress +480, 127);
+		return;
+		
+	}
+    /*
+     * render in the given location two jumping block halves - right half of a block in the left side, 
+     * and a left half of a block in the right side
+     */
+    function void renderRightLeftHalfWalkingBlocks(int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, -385);
+		do Memory.poke(memAddress +32, 2016);
+		do Memory.poke(memAddress +64, 2016);
+		do Memory.poke(memAddress +96, 2448);
+		do Memory.poke(memAddress +128, 384);
+		do Memory.poke(memAddress +160, 384);
+		do Memory.poke(memAddress +192, 384);
+		do Memory.poke(memAddress +224, 384);
+		do Memory.poke(memAddress +256, 384);
+		do Memory.poke(memAddress +288, 384);
+		do Memory.poke(memAddress +320, 384);
+		do Memory.poke(memAddress +352, 384);
+		do Memory.poke(memAddress +384, 2448);
+		do Memory.poke(memAddress +416, 2016);
+		do Memory.poke(memAddress +448, 2016);
+		do Memory.poke(memAddress +480, -385);
+		return;
+	}
+
+	function void coinAnimation1 (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 0);
+		do Memory.poke(memAddress +32, 0);
+		do Memory.poke(memAddress +64, 2016);
+		do Memory.poke(memAddress +96, 2064);
+		do Memory.poke(memAddress +128, 5064);
+		do Memory.poke(memAddress +160, 10212);
+		do Memory.poke(memAddress +192, 12276);
+		do Memory.poke(memAddress +224, 11892);
+		do Memory.poke(memAddress +256, 11892);
+		do Memory.poke(memAddress +288, 12276);
+		do Memory.poke(memAddress +320, 10212);
+		do Memory.poke(memAddress +352, 5064);
+		do Memory.poke(memAddress +384, 2064);
+		do Memory.poke(memAddress +416, 2016);
+		do Memory.poke(memAddress +448, 0);
+		do Memory.poke(memAddress +480, 0);
+		return;
+	}	
+	function void coinAnimation1LeftHalf (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 0);
+		do Memory.poke(memAddress +32, 0);
+		do Memory.poke(memAddress +64, -8192);
+		do Memory.poke(memAddress +96, 4096);
+		do Memory.poke(memAddress +128, -14336);
+		do Memory.poke(memAddress +160, -7168);
+		do Memory.poke(memAddress +192, -3072);
+		do Memory.poke(memAddress +224, 29696);
+		do Memory.poke(memAddress +256, 29696);
+		do Memory.poke(memAddress +288, -3072);
+		do Memory.poke(memAddress +320, -7168);
+		do Memory.poke(memAddress +352, -14336);
+		do Memory.poke(memAddress +384, 4096);
+		do Memory.poke(memAddress +416, -8192);
+		do Memory.poke(memAddress +448, 0);
+		do Memory.poke(memAddress +480, 0);
+		return;
+	}	
+	function void coinAnimation1RightHalf (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 0);
+		do Memory.poke(memAddress +32, 0);
+		do Memory.poke(memAddress +64, 7);
+		do Memory.poke(memAddress +96, 8);
+		do Memory.poke(memAddress +128, 19);
+		do Memory.poke(memAddress +160, 39);
+		do Memory.poke(memAddress +192, 47);
+		do Memory.poke(memAddress +224, 46);
+		do Memory.poke(memAddress +256, 46);
+		do Memory.poke(memAddress +288, 47);
+		do Memory.poke(memAddress +320, 39);
+		do Memory.poke(memAddress +352, 19);
+		do Memory.poke(memAddress +384, 8);
+		do Memory.poke(memAddress +416, 7);
+		do Memory.poke(memAddress +448, 0);
+		do Memory.poke(memAddress +480, 0);
+		return;
+	}	
+
+	function void coinAnimation2 (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 0);
+		do Memory.poke(memAddress +32, 0);
+		do Memory.poke(memAddress +64, 384);
+		do Memory.poke(memAddress +96, 576);
+		do Memory.poke(memAddress +128, 1440);
+		do Memory.poke(memAddress +160, 3024);
+		do Memory.poke(memAddress +192, 3024);
+		do Memory.poke(memAddress +224, 3024);
+		do Memory.poke(memAddress +256, 3024);
+		do Memory.poke(memAddress +288, 3024);
+		do Memory.poke(memAddress +320, 3024);
+		do Memory.poke(memAddress +352, 1440);
+		do Memory.poke(memAddress +384, 576);
+		do Memory.poke(memAddress +416, 384);
+		do Memory.poke(memAddress +448, 0);
+		do Memory.poke(memAddress +480, 0);
+		return;
+	}
+	function void coinAnimation2LeftHalf (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 0);
+		do Memory.poke(memAddress +32, 0);
+		do Memory.poke(memAddress +64, ~32767);
+		do Memory.poke(memAddress +96, 16384);
+		do Memory.poke(memAddress +128, -24576);
+		do Memory.poke(memAddress +160, -12288);
+		do Memory.poke(memAddress +192, -12288);
+		do Memory.poke(memAddress +224, -12288);
+		do Memory.poke(memAddress +256, -12288);
+		do Memory.poke(memAddress +288, -12288);
+		do Memory.poke(memAddress +320, -12288);
+		do Memory.poke(memAddress +352, -24576);
+		do Memory.poke(memAddress +384, 16384);
+		do Memory.poke(memAddress +416, ~32767);
+		do Memory.poke(memAddress +448, 0);
+		do Memory.poke(memAddress +480, 0);
+		return;
+	}	
+	function void coinAnimation2RightHalf (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 0);
+		do Memory.poke(memAddress +32, 0);
+		do Memory.poke(memAddress +64, 1);
+		do Memory.poke(memAddress +96, 2);
+		do Memory.poke(memAddress +128, 5);
+		do Memory.poke(memAddress +160, 11);
+		do Memory.poke(memAddress +192, 11);
+		do Memory.poke(memAddress +224, 11);
+		do Memory.poke(memAddress +256, 11);
+		do Memory.poke(memAddress +288, 11);
+		do Memory.poke(memAddress +320, 11);
+		do Memory.poke(memAddress +352, 5);
+		do Memory.poke(memAddress +384, 2);
+		do Memory.poke(memAddress +416, 1);
+		do Memory.poke(memAddress +448, 0);
+		do Memory.poke(memAddress +480, 0);
+		return;
+	}	
+
+
+	function void coinAnimation3 (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 0);
+		do Memory.poke(memAddress +32, 0);
+		do Memory.poke(memAddress +64, 384);
+		do Memory.poke(memAddress +96, 384);
+		do Memory.poke(memAddress +128, 384);
+		do Memory.poke(memAddress +160, 384);
+		do Memory.poke(memAddress +192, 384);
+		do Memory.poke(memAddress +224, 384);
+		do Memory.poke(memAddress +256, 384);
+		do Memory.poke(memAddress +288, 384);
+		do Memory.poke(memAddress +320, 384);
+		do Memory.poke(memAddress +352, 384);
+		do Memory.poke(memAddress +384, 384);
+		do Memory.poke(memAddress +416, 384);
+		do Memory.poke(memAddress +448, 0);
+		do Memory.poke(memAddress +480, 0);
+		return;
+	}
+	function void coinAnimation3LeftHalf (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 0);
+		do Memory.poke(memAddress +32, 0);
+		do Memory.poke(memAddress +64, ~32767);
+		do Memory.poke(memAddress +96, ~32767);
+		do Memory.poke(memAddress +128, ~32767);
+		do Memory.poke(memAddress +160, ~32767);
+		do Memory.poke(memAddress +192, ~32767);
+		do Memory.poke(memAddress +224, ~32767);
+		do Memory.poke(memAddress +256, ~32767);
+		do Memory.poke(memAddress +288, ~32767);
+		do Memory.poke(memAddress +320, ~32767);
+		do Memory.poke(memAddress +352, ~32767);
+		do Memory.poke(memAddress +384, ~32767);
+		do Memory.poke(memAddress +416, ~32767);
+		do Memory.poke(memAddress +448, 0);
+		do Memory.poke(memAddress +480, 0);
+		return;
+	}	
+	function void coinAnimation3RightHalf (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 0);
+		do Memory.poke(memAddress +32, 0);
+		do Memory.poke(memAddress +64, 1);
+		do Memory.poke(memAddress +96, 1);
+		do Memory.poke(memAddress +128, 1);
+		do Memory.poke(memAddress +160, 1);
+		do Memory.poke(memAddress +192, 1);
+		do Memory.poke(memAddress +224, 1);
+		do Memory.poke(memAddress +256, 1);
+		do Memory.poke(memAddress +288, 1);
+		do Memory.poke(memAddress +320, 1);
+		do Memory.poke(memAddress +352, 1);
+		do Memory.poke(memAddress +384, 1);
+		do Memory.poke(memAddress +416, 1);
+		do Memory.poke(memAddress +448, 0);
+		do Memory.poke(memAddress +480, 0);
+		return;
+	}
+
+	function void renderPipe (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, -1);
+		do Memory.poke(memAddress +32, -32767);
+		do Memory.poke(memAddress +64, -32767);
+		do Memory.poke(memAddress +96, -32767);
+		do Memory.poke(memAddress +128, -32767);
+		do Memory.poke(memAddress +160, -1);
+		do Memory.poke(memAddress +192, 32766);
+		do Memory.poke(memAddress +224, 8196);
+		do Memory.poke(memAddress +256, 8196);
+		do Memory.poke(memAddress +288, 8196);
+		do Memory.poke(memAddress +320, 8196);
+		do Memory.poke(memAddress +352, 8196);
+		do Memory.poke(memAddress +384, 8196);
+		do Memory.poke(memAddress +416, 8196);
+		do Memory.poke(memAddress +448, 8196);
+		do Memory.poke(memAddress +480, 8196);
+		return;
+	}
+	function void renderPipeLeftHalf (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, -256);
+		do Memory.poke(memAddress +32, 256);
+		do Memory.poke(memAddress +64, 256);
+		do Memory.poke(memAddress +96, 256);
+		do Memory.poke(memAddress +128, 256);
+		do Memory.poke(memAddress +160, -256);
+		do Memory.poke(memAddress +192, -512);
+		do Memory.poke(memAddress +224, 1024);
+		do Memory.poke(memAddress +256, 1024);
+		do Memory.poke(memAddress +288, 1024);
+		do Memory.poke(memAddress +320, 1024);
+		do Memory.poke(memAddress +352, 1024);
+		do Memory.poke(memAddress +384, 1024);
+		do Memory.poke(memAddress +416, 1024);
+		do Memory.poke(memAddress +448, 1024);
+		do Memory.poke(memAddress +480, 1024);
+		return;
+	}	
+	function void renderPipeRightHalf (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 255);
+		do Memory.poke(memAddress +32, 128);
+		do Memory.poke(memAddress +64, 128);
+		do Memory.poke(memAddress +96, 128);
+		do Memory.poke(memAddress +128, 128);
+		do Memory.poke(memAddress +160, 255);
+		do Memory.poke(memAddress +192, 127);
+		do Memory.poke(memAddress +224, 32);
+		do Memory.poke(memAddress +256, 32);
+		do Memory.poke(memAddress +288, 32);
+		do Memory.poke(memAddress +320, 32);
+		do Memory.poke(memAddress +352, 32);
+		do Memory.poke(memAddress +384, 32);
+		do Memory.poke(memAddress +416, 32);
+		do Memory.poke(memAddress +448, 32);
+		do Memory.poke(memAddress +480, 32);
+		return;
+	}	
+
+	function void renderPole (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 384);
+		do Memory.poke(memAddress +32, 384);
+		do Memory.poke(memAddress +64, 384);
+		do Memory.poke(memAddress +96, 384);
+		do Memory.poke(memAddress +128, 384);
+		do Memory.poke(memAddress +160, 384);
+		do Memory.poke(memAddress +192, 384);
+		do Memory.poke(memAddress +224, 384);
+		do Memory.poke(memAddress +256, 384);
+		do Memory.poke(memAddress +288, 384);
+		do Memory.poke(memAddress +320, 384);
+		do Memory.poke(memAddress +352, 384);
+		do Memory.poke(memAddress +384, 384);
+		do Memory.poke(memAddress +416, 384);
+		do Memory.poke(memAddress +448, 384);
+		do Memory.poke(memAddress +480, 384);
+		return;
+	}
+	function void renderPoleLeftHalf (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, ~32767);
+		do Memory.poke(memAddress +32, ~32767);
+		do Memory.poke(memAddress +64, ~32767);
+		do Memory.poke(memAddress +96, ~32767);
+		do Memory.poke(memAddress +128, ~32767);
+		do Memory.poke(memAddress +160, ~32767);
+		do Memory.poke(memAddress +192, ~32767);
+		do Memory.poke(memAddress +224, ~32767);
+		do Memory.poke(memAddress +256, ~32767);
+		do Memory.poke(memAddress +288, ~32767);
+		do Memory.poke(memAddress +320, ~32767);
+		do Memory.poke(memAddress +352, ~32767);
+		do Memory.poke(memAddress +384, ~32767);
+		do Memory.poke(memAddress +416, ~32767);
+		do Memory.poke(memAddress +448, ~32767);
+		do Memory.poke(memAddress +480, ~32767);
+		return;
+	}	
+	function void renderPoleRightHalf (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 1);
+		do Memory.poke(memAddress +32, 1);
+		do Memory.poke(memAddress +64, 1);
+		do Memory.poke(memAddress +96, 1);
+		do Memory.poke(memAddress +128, 1);
+		do Memory.poke(memAddress +160, 1);
+		do Memory.poke(memAddress +192, 1);
+		do Memory.poke(memAddress +224, 1);
+		do Memory.poke(memAddress +256, 1);
+		do Memory.poke(memAddress +288, 1);
+		do Memory.poke(memAddress +320, 1);
+		do Memory.poke(memAddress +352, 1);
+		do Memory.poke(memAddress +384, 1);
+		do Memory.poke(memAddress +416, 1);
+		do Memory.poke(memAddress +448, 1);
+		do Memory.poke(memAddress +480, 1);
+		return;
+	}	
+
+	function void renderPoleTop (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 384);
+		do Memory.poke(memAddress +32, 448);
+		do Memory.poke(memAddress +64, 416);
+		do Memory.poke(memAddress +96, 464);
+		do Memory.poke(memAddress +128, 488);
+		do Memory.poke(memAddress +160, 500);
+		do Memory.poke(memAddress +192, 506);
+		do Memory.poke(memAddress +224, 506);
+		do Memory.poke(memAddress +256, 500);
+		do Memory.poke(memAddress +288, 488);
+		do Memory.poke(memAddress +320, 464);
+		do Memory.poke(memAddress +352, 416);
+		do Memory.poke(memAddress +384, 448);
+		do Memory.poke(memAddress +416, 384);
+		do Memory.poke(memAddress +448, 384);
+		do Memory.poke(memAddress +480, 384);
+		return;
+	}
+	function void renderPoleTopLeftHalf (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, ~32767);
+		do Memory.poke(memAddress +32, -16384);
+		do Memory.poke(memAddress +64, -24576);
+		do Memory.poke(memAddress +96, -12288);
+		do Memory.poke(memAddress +128, -6144);
+		do Memory.poke(memAddress +160, -3072);
+		do Memory.poke(memAddress +192, -1536);
+		do Memory.poke(memAddress +224, -1536);
+		do Memory.poke(memAddress +256, -3072);
+		do Memory.poke(memAddress +288, -6144);
+		do Memory.poke(memAddress +320, -12288);
+		do Memory.poke(memAddress +352, -24576);
+		do Memory.poke(memAddress +384, -16384);
+		do Memory.poke(memAddress +416, ~32767);
+		do Memory.poke(memAddress +448, ~32767);
+		do Memory.poke(memAddress +480, ~32767);
+		return;
+	}	
+	function void renderPoleTopRightHalf (int location) {
+		var int memAddress; 
+		let memAddress = 16384+location;
+		// column 0
+		do Memory.poke(memAddress, 1);
+		do Memory.poke(memAddress +32, 1);
+		do Memory.poke(memAddress +64, 1);
+		do Memory.poke(memAddress +96, 1);
+		do Memory.poke(memAddress +128, 1);
+		do Memory.poke(memAddress +160, 1);
+		do Memory.poke(memAddress +192, 1);
+		do Memory.poke(memAddress +224, 1);
+		do Memory.poke(memAddress +256, 1);
+		do Memory.poke(memAddress +288, 1);
+		do Memory.poke(memAddress +320, 1);
+		do Memory.poke(memAddress +352, 1);
+		do Memory.poke(memAddress +384, 1);
+		do Memory.poke(memAddress +416, 1);
+		do Memory.poke(memAddress +448, 1);
+		do Memory.poke(memAddress +480, 1);
+		return;
+	}	
+
+}

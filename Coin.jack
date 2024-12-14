@@ -1,0 +1,69 @@
+class Coin {
+    field boolean collected;
+    field int location;
+    field int height;
+    field int animationPhase; // there are 4 animation phases
+    
+    /**
+     * @param row - the row of the coin (row of cells, int in range [0, 15])
+     * @param _location - horizontal location of the Coin (in blocks)
+     */
+    constructor Coin new(int _location, int row) {
+        let location = _location;
+        let height = row * 16;  // convert row to vertical coordinate in pixels
+        let animationPhase = 0;
+        let collected = false;
+        return this;
+    }
+
+    method boolean isCollected() {
+        return collected;
+    }
+
+    method void collectCoin() {
+        let collected = true;
+        return;
+    }
+
+    method int getLocation() {
+        return location;
+    }
+
+    /**
+     * gets the animation phase and increments it.
+     */
+    method int getAnimationPhase() {
+        return animationPhase;
+    }
+
+    method void incrementAnimationPhase() {
+        let animationPhase = animationPhase + 1;
+        if (animationPhase = 4) {  // modulo - keep in range [0, 3]
+            let animationPhase = 0;
+        }
+
+        return;
+    }
+
+    method boolean collidedWithPlayer(int currentShift, int playerHeight) {
+        if (collected) {
+            return false;
+        }
+
+        if ((location - currentShift) = 2) {  // check horizontal proximity
+            if (Math.abs(height - playerHeight) < 17) {  // check vertical proximity
+                return true;
+            }
+            else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}

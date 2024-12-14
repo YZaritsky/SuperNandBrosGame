@@ -1,0 +1,510 @@
+// row size in bytes - 32
+// num cells in row - 32
+
+class Map {
+    field Array row11Coins;  // all coins of row 8
+    field Array row13Coins;  // all coins of row 13
+
+    field int row11coinsSize;  // num coins in row 11
+    field int row13coinsSize;  // num coins in row 13
+
+    field Array row8Block; // all blocks of row 8, ordered from left to right
+    field Array row9Block; // all blocks of row 9, ordered from left to right
+    field Array row10Block; // all blocks of row 10, ordered from left to right
+    field Array row11Block; // all blocks of row 11, ordered from left to right
+    field Array row12Block; // all blocks of row 12, ordered from left to right
+    field Array row13Block; // all blocks of row 13, ordered from left to right
+    field Array row14Block; // all blocks of row 14, ordered from left to right
+    field Array row15Block; // all blocks of row 15, ordered from left to right
+
+    field int row8size;  // size of the 8 row array
+    field int row9size;  // size of the 9 row array
+    field int row10size;  // size of the 10 row array
+    field int row11size;  // size of the 11 row array
+    field int row12size;  // size of the 12 row array
+    field int row13size;  // size of the 13 row array
+    field int row14size;  // size of the 14 row array
+    field int row15size;  // size of the 15 row array
+    
+    field int currentHeight; // current map height at mario's location, in pixels
+    field int currentShift; // current window position from map start, in blocks
+    field int midPhase; // 1 if in mid phase, 0 if in full phase 
+
+    constructor Map new(Array _row13Coins, Array _row11Coins) {
+        let currentHeight = 224;  // default starting height
+        let currentShift = 0;
+        let midPhase = 0;
+
+        // set coins
+        let row13Coins = _row13Coins;
+        let row13coinsSize = MapLayout.row13numCoins();
+        let row11Coins = _row11Coins;
+        let row11coinsSize = MapLayout.row11numCoins();
+
+        // set blocks
+        let row8Block = MapLayout.row8Blocks();
+        let row8size = MapLayout.row8size();        
+        let row9Block = MapLayout.row9Blocks();
+        let row9size = MapLayout.row9size();
+        let row10Block = MapLayout.row10Blocks();
+        let row10size = MapLayout.row10size();
+        let row11Block = MapLayout.row11Blocks();
+        let row11size = MapLayout.row11size();
+        let row12Block = MapLayout.row12Blocks();
+        let row12size = MapLayout.row12size();
+        let row13Block = MapLayout.row13Blocks();
+        let row13size = MapLayout.row13size();
+        let row14Block = MapLayout.row14Blocks();
+        let row14size = MapLayout.row14size();
+        let row15Block = MapLayout.row15Blocks();
+        let row15size = MapLayout.row15size();
+        
+        return this;
+    }
+
+    method int getHeight() {
+        return currentHeight;
+    }
+
+    method int getCurrentShift() {
+        return currentShift;
+    }
+
+    /**
+     * paint the entire map white (erase the title screen)
+     */
+    method void eraseMap() {
+        var int i;
+        let i = 0;
+        while (i < 16) {
+            do renderRow(i, 0, 0);
+            let i = i + 1;
+        }
+        return;
+    }
+
+    method void render() {
+        var int i;
+
+        // reset height - set to lower edge of the screen
+        // when rendering blocks on column 2 of the screen, check the 
+        // first row which has a block and set the height accordingly 
+        let currentHeight = 256;
+
+        //render the first 9 as empty (will be all white)
+        // (except of the first 6 rows - dont have any graphics, and 
+        // therefore dont need to be re-rendered)
+        let i = 1;
+        while (i < 8) {
+            do renderRow(i, 0, 0);
+            let i = i + 1;
+        }
+
+        do renderRow(8, row8Block, row8size);
+        do renderRow(9, row9Block, row9size);
+        do renderRow(10, row10Block, row10size);
+        do renderRow(11, row11Block, row11size);
+        do renderRow(12, row12Block, row12size);
+        do renderRow(13, row13Block, row13size);
+        do renderRow(14, row14Block, row14size);
+        do renderRow(15, row15Block, row15size);
+
+        do renderCoinsRow(13, row13Coins, row13coinsSize);
+        do renderCoinsRow(11, row11Coins, row11coinsSize);
+
+        return;
+    }
+
+    method void advance() {
+        if (midPhase = 0) {
+            let midPhase = 1;
+        } else {
+            let midPhase = 0;
+            let currentShift = (currentShift + 1);
+        }
+        return;
+    }
+
+    method void renderRow(int row, Array rowBlocks, int arrSize) {
+        // main strategy - iterate simultenously on both the blocks list and screen cells.
+        // according to the blocks present on the cell, render it
+        // and advance to the next cell
+
+        var int blockLocation;
+        var int blockType;
+        var int nextBlockLocation;
+
+        var boolean loopFlag;
+        var boolean foundBlock;
+
+        var int currentLocationInPixels;
+
+        var int cell;
+        var int cellPosition;
+
+        var int arrIndex;
+
+        var Block curBlock;
+        var Block nextBlock;
+
+        let arrIndex = 0;
+        let cell = 0;
+
+        while (cell < 32) {
+            let loopFlag = true;
+            let foundBlock = false;
+
+            let cellPosition = currentShift + cell;
+
+            // find the next block which sits in the current cell (or in next cell and in midPhase)
+            while (loopFlag) {
+                if (arrIndex > (arrSize - 1)) {
+                    let loopFlag = false;
+                } else {
+                    let curBlock = rowBlocks[arrIndex];
+                    let blockLocation = curBlock.getLocation();
+                    let blockType = curBlock.getType();
+
+                    if (blockLocation < cellPosition) {
+                        let arrIndex = arrIndex + 1;
+                    }
+                    if (blockLocation = cellPosition) {
+                        let loopFlag = false;
+                        let foundBlock = true;
+                    }
+                    if (blockLocation = (cellPosition + 1)) {
+                        if (midPhase = 1) {
+                            let loopFlag = false;
+                            let foundBlock = true;
+                        } else {
+                            let loopFlag = false;
+                        }
+                    } 
+                    if (blockLocation > (cellPosition + 1)) {
+                        let loopFlag = false;
+                    }
+                }
+            }
+            
+            let currentLocationInPixels = (row * 32 * 16) + cell;
+
+            if (foundBlock) {
+                // if found block (other than jumping block - only cosmetic) 
+                // and current cell is 2 (column 2) - 
+                // try to set the height
+                if (cell = 2) {
+                    if (~(blockType = 1)) {
+                        if (~(blockType = 4)) {
+                            if (~(blockType = 5)) {
+                                if ((row * 16) < currentHeight) {
+                                    let currentHeight = row * 16;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // if found block - check all options and render accordingly
+                if (blockLocation = cellPosition + 1) {  // render left half in right side
+                    if (blockType = 0) {
+                        do Items.renderLeftHalfGroundBlock(currentLocationInPixels);
+                    }
+                    if (blockType = 1) {
+                        do Items.renderLeftHalfJumpingBlock(currentLocationInPixels);
+                    }
+                    if (blockType = 2) {
+                        do Items.renderLeftHalfWalkingBlock(currentLocationInPixels);
+                    }
+                    if (blockType = 3) {
+                        do Items.renderPipeLeftHalf(currentLocationInPixels);
+                    }
+                    if (blockType = 4) {
+                        do Items.renderPoleLeftHalf(currentLocationInPixels);
+                    }
+                    if (blockType = 5) {
+                        do Items.renderPoleTopLeftHalf(currentLocationInPixels);
+                    }
+                } else {
+                    if (midPhase = 1) {  // mid phase - check if there is a following block
+
+                        if ((arrIndex + 1) < arrSize) {
+                            let nextBlock =  rowBlocks[(arrIndex + 1)];
+                            let nextBlockLocation = nextBlock.getLocation();
+                        } else {
+                            let nextBlockLocation = 0;  // assign to zero to avoid entring the "if" below
+                        }
+
+                        if (nextBlockLocation = (cellPosition + 1)) {  // render two half blocks
+                            if (blockType = 0) {
+                                do Items.renderRightLeftHalfGroundBlocks(currentLocationInPixels);
+                            }
+                            if (blockType = 1) {
+                                do Items.renderRightLeftHalfJumpingBlocks(currentLocationInPixels);
+                            }
+                            if (blockType = 2) {
+                                do Items.renderRightLeftHalfWalkingBlocks(currentLocationInPixels);
+                            }                            
+                        } else {  // render right half in left side
+                            if (blockType = 0) {
+                                do Items.renderRightHalfGroundBlock(currentLocationInPixels);
+                            }
+                            if (blockType = 1) {
+                                do Items.renderRightHalfJumpingBlock(currentLocationInPixels);
+                            }
+                            if (blockType = 2) {
+                                do Items.renderRightHalfWalkingBlock(currentLocationInPixels);
+                            }
+                            if (blockType = 3) {
+                                do Items.renderPipeRightHalf(currentLocationInPixels);
+                            }
+                            if (blockType = 4) {
+                                do Items.renderPoleRightHalf(currentLocationInPixels);
+                            }
+                            if (blockType = 5) {
+                                do Items.renderPoleTopRightHalf(currentLocationInPixels);
+                            }
+                        }
+                    } else {  // render full block
+                        if (blockType = 0) {
+                            do Items.renderGroundBlock(currentLocationInPixels);
+                        }
+                        if (blockType = 1) {
+                            do Items.renderJumpingBlock(currentLocationInPixels);
+                        }
+                        if (blockType = 2) {
+                            do Items.renderWalkingBlock(currentLocationInPixels);
+                        }
+                        if (blockType = 3) {
+                            do Items.renderPipe(currentLocationInPixels);
+                        }
+                        if (blockType = 4) {
+                            do Items.renderPole(currentLocationInPixels);
+                        }
+                        if (blockType = 5) {
+                            do Items.renderPoleTop(currentLocationInPixels);
+                        }
+                    }
+                }
+            } else {
+                do Items.renderEmptyBlock(currentLocationInPixels);
+            }
+            let cell = cell + 1;
+        }
+        return;
+    }
+
+    /**
+     * render coins in the given row
+     */
+    method void renderCoinsRow(int row, Array coinsArr, int arrSize) {
+        // main strategy - iterate simultenously on both the blocks list and screen cells.
+        // according to the blocks present on the cell, render it
+        // and advance to the next cell
+
+        var int coinLocation;
+        var int animationPhase;
+
+        var int cell;
+        var int cellPosition;
+
+        var boolean loopFlag;
+        var boolean foundCoin;
+
+        var int currentLocationInPixels;
+
+        var int arrIndex;
+
+        var Coin curCoin;
+
+        var int i;
+
+        let arrIndex = 0;
+        let cell = 0;
+
+        while (cell < 32) {
+            let loopFlag = true;
+            let foundCoin = false;
+
+            let cellPosition = currentShift + cell;
+
+            // find the next coin which sits in the current cell (or in next cell and in midPhase)
+            while (loopFlag) {
+
+                if (arrIndex > (arrSize - 1)) {
+                    let loopFlag = false;
+                } else {
+                    let curCoin = coinsArr[arrIndex];
+                    let coinLocation = curCoin.getLocation();
+                    let animationPhase = curCoin.getAnimationPhase();
+
+                    if (coinLocation < cellPosition) {
+                        let arrIndex = arrIndex + 1;
+                    }
+                    if (coinLocation = cellPosition) {
+                        let loopFlag = false;
+                        let foundCoin = true;
+                    }
+                    if (coinLocation = (cellPosition + 1)) {
+                        if (midPhase = 1) {
+                            let loopFlag = false;
+                            let foundCoin = true;
+                        } else {
+                            let loopFlag = false;
+                        }
+                    } 
+                    if (coinLocation > (cellPosition + 1)) {
+                        let loopFlag = false;
+                    }
+                }
+            }
+            
+            let currentLocationInPixels = (row * 32 * 16) + cell;
+
+            if (foundCoin) {
+
+                if (~(curCoin.isCollected())) { // only render uncollected coins
+
+                    // if found uncollected coin - check all options and render accordingly
+                    if (coinLocation = cellPosition + 1) {  // render left half in right side
+                        if (animationPhase = 0) {
+                            do Items.coinAnimation1LeftHalf(currentLocationInPixels);
+                        }
+                        if (animationPhase = 1) {
+                            do Items.coinAnimation2LeftHalf(currentLocationInPixels);
+                        }
+                        if (animationPhase = 2) {
+                            do Items.coinAnimation3LeftHalf(currentLocationInPixels);
+                        }
+                        if (animationPhase = 3) {
+                            do Items.coinAnimation2LeftHalf(currentLocationInPixels);
+                        }
+
+                    } else {
+                        if (midPhase = 1) {  // mid phase - render right half in left side
+                            if (animationPhase = 0) {
+                                do Items.coinAnimation1RightHalf(currentLocationInPixels);
+                            }
+                            if (animationPhase = 1) {
+                                do Items.coinAnimation2RightHalf(currentLocationInPixels);
+                            }
+                            if (animationPhase = 2) {
+                                do Items.coinAnimation3RightHalf(currentLocationInPixels);
+                            }
+                            if (animationPhase = 3) {
+                                do Items.coinAnimation2RightHalf(currentLocationInPixels);
+                            }
+                        } else {  // render full coin
+                            if (animationPhase = 0) {
+                                do Items.coinAnimation1(currentLocationInPixels);
+                            }
+                            if (animationPhase = 1) {
+                                do Items.coinAnimation2(currentLocationInPixels);
+                            }
+                            if (animationPhase = 2) {
+                                do Items.coinAnimation3(currentLocationInPixels);
+                            }
+                            if (animationPhase = 3) {
+                                do Items.coinAnimation2(currentLocationInPixels);
+                            }
+                        }
+                    }
+                }
+            }
+
+            let cell = cell + 1;
+        }
+
+        // increment the animation phase of all coins
+        let i = 0;
+        while (i < arrSize) {
+            let curCoin = coinsArr[i];
+            do curCoin.incrementAnimationPhase();
+            let i = i + 1;
+        }
+
+        return;
+    }
+
+    method void dispose() {
+        var int i;
+        var Block curBlock;
+
+        // delete all blocks and arrays of all rows
+        // (coins are deleted by the game class which handles them)
+        let i = 0;
+        while (i < row8size) {
+            let curBlock = row8Block[i];
+            do curBlock.dispose();
+            let i = i + 1;
+        }
+        do row8Block.dispose();
+
+
+        let i = 0;
+        while (i < row9size) {
+            let curBlock = row9Block[i];
+            do curBlock.dispose();
+            let i = i + 1;
+        }
+        do row9Block.dispose();
+
+
+        let i = 0;
+        while (i < row10size) {
+            let curBlock = row10Block[i];
+            do curBlock.dispose();
+            let i = i + 1;
+        }
+        do row10Block.dispose();
+
+
+        let i = 0;
+        while (i < row11size) {
+            let curBlock = row11Block[i];
+            do curBlock.dispose();
+            let i = i + 1;
+        }
+        do row11Block.dispose();
+
+
+        let i = 0;
+        while (i < row12size) {
+            let curBlock = row12Block[i];
+            do curBlock.dispose();
+            let i = i + 1;
+        }
+        do row12Block.dispose();
+
+
+        let i = 0;
+        while (i < row13size) {
+            let curBlock = row13Block[i];
+            do curBlock.dispose();
+            let i = i + 1;
+        }
+        do row13Block.dispose();
+
+
+        let i = 0;
+        while (i < row14size) {
+            let curBlock = row14Block[i];
+            do curBlock.dispose();
+            let i = i + 1;
+        }
+        do row14Block.dispose();
+
+
+        let i = 0;
+        while (i < row15size) {
+            let curBlock = row15Block[i];
+            do curBlock.dispose();
+            let i = i + 1;
+        }
+        do row15Block.dispose();
+
+
+        do Memory.deAlloc(this);
+        return;
+    }
+    
+}

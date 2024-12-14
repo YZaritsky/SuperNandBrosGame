@@ -1,0 +1,27 @@
+class Block {
+    field int type; // 0- ground, 1- jumping, 2- walking, 3- pipe, 4- pole(end game), 5- flag on top of pole
+    field int location; // horizontal location in blocks
+
+    /**
+     * create a new block.
+     * @param location - horizontal location of the block (in blocks)
+     */
+    constructor Block new(int _type, int _location) {
+        let type = _type;
+        let location = _location;
+        return this;
+    }
+
+    method int getLocation() {
+        return location;
+    }
+
+    method int getType() {
+        return type;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}
